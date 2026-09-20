@@ -1,0 +1,115 @@
+{% extends 'store/base.html' %}
+{% block content %}
+
+<!-- SweetAlert aur Animation ki Library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<div class="container d-flex justify-content-center align-items-center" style="min-height: 75vh;">
+    
+    <!-- Animated Login Card -->
+    <div class="card shadow-lg border-0 rounded-4 p-5 text-center login-card" style="max-width: 450px; width: 100%; background-color: #ffffff;">
+        
+        <!-- Logo Icon -->
+        <div class="mb-4">
+            <div class="d-inline-flex justify-content-center align-items-center rounded-circle shadow-sm icon-pulse" style="width: 80px; height: 80px; background: linear-gradient(135deg, #ff758c, #ff7eb3);">
+                <i class="fa-solid fa-user-lock text-white" style="font-size: 35px;"></i>
+            </div>
+        </div>
+
+        <h2 class="fw-bold mb-1" style="color: #0f1111;">Welcome Back</h2>
+        <p class="text-muted mb-4 small">Sign in to your PoojaStore account</p>
+
+        <!-- Custom Mobile Login Form -->
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+
+            <div class="mb-4 text-start">
+                <label class="form-label fw-bold text-muted small ms-1">MOBILE NUMBER</label>
+                <div class="input-group login-input-group shadow-sm">
+                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-phone"></i></span>
+                    <input type="text" name="phone" value="{{ request.POST.phone }}" class="form-control border-start-0 ps-0" placeholder="Enter your 10-digit mobile number" required autofocus>
+                </div>
+            </div>
+
+            <div class="mb-4 text-start">
+                <label class="form-label fw-bold text-muted small ms-1">PASSWORD</label>
+                <div class="input-group login-input-group shadow-sm">
+                    <span class="input-group-text bg-white border-end-0 text-muted"><i class="fa-solid fa-lock"></i></span>
+                    <input type="password" name="password" class="form-control border-start-0 ps-0" placeholder="Enter your password" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn w-100 fw-bold fs-5 py-2 premium-login-btn shadow mt-2">
+                Sign In <i class="fa-solid fa-arrow-right-to-bracket ms-1"></i>
+            </button>
+        </form>
+
+        <!-- 👇 Animated Sign Up Section 👇 -->
+        <div class="mt-5 pt-4 border-top position-relative">
+            <span class="position-absolute top-0 start-50 translate-middle bg-white px-3 text-muted small rounded-pill border">OR</span>
+            
+            <p class="mb-2 text-muted" style="font-size: 14px;">New customer?</p>
+            <a href="{% url 'register' %}" class="animated-signup-link fw-bold fs-5">
+                Please sign up Here <i class="fa-solid fa-arrow-right-long ms-1 arrow-icon"></i>
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- 👇 ERROR POPUP JAVASCRIPT 👇 -->
+<script>
+    // Agar views.py se koi error message aaya hai, toh use SweetAlert me dikhayein
+    {% if messages %}
+        {% for message in messages %}
+            {% if message.tags == 'error' %}
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Login Failed',
+                    text: '{{ message|escapejs }}',
+                    confirmButtonColor: '#ff4b91',
+                    showClass: {
+                        popup: 'animate__animated animate__shakeX'
+                    }
+                });
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+</script>
+
+<style>
+    /* Card Slide Up Fade Animation */
+    .login-card { animation: slideUpFade 0.8s cubic-bezier(0.16, 1, 0.3, 1); transition: box-shadow 0.3s ease; }
+    .login-card:hover { box-shadow: 0 20px 40px rgba(0,0,0,0.1) !important; }
+    @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(50px); } 100% { opacity: 1; transform: translateY(0); } }
+
+    /* Icon Pulse Animation */
+    .icon-pulse { animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 75, 145, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(255, 75, 145, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 75, 145, 0); } }
+
+    /* Input Field Styling */
+    .login-input-group { border-radius: 12px; overflow: hidden; border: 2px solid #eaeaea; transition: all 0.3s ease; }
+    .login-input-group:focus-within { border-color: #ff4b91; box-shadow: 0 0 0 4px rgba(255, 75, 145, 0.1) !important; }
+    .login-input-group .form-control { border: none; box-shadow: none; padding: 12px 15px; }
+    .login-input-group .input-group-text { border: none; padding-left: 15px; }
+
+    /* Premium Login Button */
+    .premium-login-btn { background: linear-gradient(135deg, #ff4b91, #ff7eb3); border: none; color: white; border-radius: 12px; transition: all 0.3s ease; }
+    .premium-login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 75, 145, 0.4) !important; color: white; }
+
+    /* Sign up link animation */
+    .animated-signup-link { color: #ff4b91; text-decoration: none; display: inline-block; position: relative; transition: all 0.3s ease; }
+    .animated-signup-link:hover { color: #d63384; transform: scale(1.05); }
+    .animated-signup-link .arrow-icon { transition: transform 0.3s ease; }
+    .animated-signup-link:hover .arrow-icon { transform: translateX(5px); }
+    .animated-signup-link::after { content: ''; position: absolute; width: 100%; transform: scaleX(0); height: 2px; bottom: -4px; left: 0; background: linear-gradient(90deg, #ff4b91, #ff7eb3); transform-origin: bottom right; transition: transform 0.3s cubic-bezier(0.86, 0, 0.07, 1); border-radius: 2px; }
+    .animated-signup-link:hover::after { transform: scaleX(1); transform-origin: bottom left; }
+
+    /* Dark Mode */
+    [data-bs-theme="dark"] .login-card { background-color: #1e1e1e !important; }
+    [data-bs-theme="dark"] .login-input-group { border-color: #333; }
+    [data-bs-theme="dark"] .login-input-group .form-control, [data-bs-theme="dark"] .login-input-group .input-group-text { background-color: #2a2a2a !important; color: #fff !important; }
+    [data-bs-theme="dark"] .position-absolute.bg-white { background-color: #1e1e1e !important; }
+</style>
+{% endblock %}

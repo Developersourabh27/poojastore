@@ -1,0 +1,33 @@
+{% extends 'store/base.html' %}
+{% block content %}
+<div class="card shadow-lg mx-auto p-4 mt-5 border-0 bg-white text-center" style="max-width: 500px; border-radius: 15px;">
+    
+    <h4 class="fw-bold text-success">Pay ₹{{ grand_total }}</h4>
+    <p class="text-muted">Scan the QR code below from your phone</p>
+    
+    <!-- QR Code -->
+    <div class="p-3 bg-light rounded d-inline-block mb-3 border">
+        <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=upi://pay?pa={{ upi_id }}%26pn=Pooja%20General%20Store%26am={{ grand_total }}%26cu=INR" alt="UPI QR Code">
+    </div>
+
+    <hr>
+    
+    <div class="mt-2 text-start bg-light p-3 rounded">
+        <h6 class="text-danger fw-bold">Step 2: Enter Transaction Details</h6>
+        <p class="small text-muted mb-2">Payment successful hone ke baad, apne UPI App (GPay/PhonePe) se <b>12-digit UTR ya Reference Number</b> dekh kar yahan dalein.</p>
+        
+        <!-- 👇 EK DUM SAHI CART WALA LINK 👇 -->
+        <form action="{% url 'cart_payment_success' %}" method="POST">
+            {% csrf_token %}
+            
+            <div class="mb-3">
+                <input type="text" name="utr_number" class="form-control border-secondary" placeholder="Enter 12-digit UTR Number" required minlength="10" maxlength="12" pattern="\d{10,12}" title="Please enter valid 10-12 digit UTR number">
+            </div>
+            
+            <button type="submit" class="btn btn-success btn-lg w-100 fw-bold shadow rounded-pill">
+                ✅ Submit & Confirm Order
+            </button>
+        </form>
+    </div>
+</div>
+{% endblock %}

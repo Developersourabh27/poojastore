@@ -1,0 +1,35 @@
+{% extends 'store/base.html' %}
+{% block content %}
+
+<!-- Popup ke pichhe ka background thoda blur karne ke liye -->
+<div class="text-center mt-5" style="filter: blur(5px); pointer-events: none;">
+    <h2 class="text-success fw-bold">Processing your order...</h2>
+</div>
+
+<!-- SweetAlert2 (Sundar Popup banane ki library) -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script>
+    // Jaise hi page load hoga, yeh popup screen ke center mein aayega
+    document.addEventListener("DOMContentLoaded", function() {
+        Swal.fire({
+            title: 'Payment Successful! 🎉',
+            html: '<b style="color: green;">Aapka order successfully place ho gaya hai.</b> <br><br> Hum jaldi hi isko deliver karenge. Thank you for shopping with Pooja General Store!',
+            icon: 'success',
+            confirmButtonText: '🛒 Continue Shopping',
+            confirmButtonColor: '#198754',
+            allowOutsideClick: false, // Bahar click karne se band nahi hoga
+            allowEscapeKey: false,
+            width: '600px',
+            padding: '2em',
+            backdrop: `rgba(0,0,0,0.6)` // Pichhe dark background
+        }).then((result) => {
+            // Jab user Continue Shopping par click karega, toh wo home page par jayega
+            if (result.isConfirmed) {
+                window.location.href = "{% url 'home' %}";
+            }
+        });
+    });
+</script>
+
+{% endblock %}

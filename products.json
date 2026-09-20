@@ -1,0 +1,22 @@
+[
+  {
+    "model": "store.product",
+    "pk": 1,
+    "fields": {
+      "name": "Aashirvaad Atta 5kg",
+      "description": "Premium whole wheat atta for soft rotis.",
+      "price": "250.00",
+      "image_url": "https://m.media-amazon.com/images/I/718yAohD2BL._SL1500_.jpg"
+    }
+  },
+  {
+    "model": "store.product",
+    "pk": 2,
+    "fields": {
+      "name": "Tata Salt 1kg",
+      "description": "Desh ka namak, iodine se bharpoor.",
+      "price": "25.00",
+      "image_url": "https://m.media-amazon.com/images/I/61r59Z9W82L._SL1000_.jpg"
+    }
+  }
+]

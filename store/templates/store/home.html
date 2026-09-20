@@ -1,0 +1,190 @@
+{% extends 'store/base.html' %}
+{% block content %}
+
+<!-- 👇 FLIPKART STYLE PROMO BANNERS 👇 -->
+<div class="mb-4 mt-2">
+    <!-- Horizontal Scrollable Container -->
+    <div class="d-flex gap-3 overflow-auto custom-scrollbar pb-3 px-1" style="scroll-snap-type: x mandatory;">
+        
+        <!-- Banner 1: Dark Premium (Clickable -> Skin Care, Low Price) -->
+        <a href="{% url 'home' %}?category=Skin Care&sort=low_price" class="promo-banner text-decoration-none d-block flex-shrink-0 position-relative shadow-sm" style="background: linear-gradient(135deg, #111827, #374151);">
+            <div class="position-absolute top-0 start-0 p-3 p-md-4 w-100 h-100 text-white z-1 d-flex flex-column justify-content-center">
+                <div>
+                    <span class="badge mb-2" style="background-color: #ff4b91;">BIG BEAUTY DAYS</span>
+                </div>
+                <h3 class="fw-bold mb-1 fs-4 fs-md-3">Luxury Skincare</h3>
+                <h5 class="mb-2 fw-bold" style="color: #fcd200;">Min. 40% Off</h5>
+                <p class="small opacity-75 mb-0 d-none d-sm-block text-white">Stand out with every step</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?q=80&w=400&auto=format&fit=crop" class="position-absolute bottom-0 end-0 z-0 banner-img" alt="Skincare">
+            <span class="position-absolute bottom-0 end-0 bg-light text-muted px-1 m-2 rounded fw-bold z-2" style="font-size: 9px; opacity: 0.8;">AD</span>
+        </a>
+
+        <!-- Banner 2: Pink/Rose Gold Theme (Clickable -> Make-up, Low Price) -->
+        <a href="{% url 'home' %}?category=Make-up&sort=low_price" class="promo-banner text-decoration-none d-block flex-shrink-0 position-relative shadow-sm" style="background: linear-gradient(135deg, #ff9a9e, #fecfef);">
+            <div class="position-absolute top-0 start-0 p-3 p-md-4 w-100 h-100 text-dark z-1 d-flex flex-column justify-content-center">
+                <div>
+                    <span class="badge bg-danger mb-2 text-white">NEW LAUNCH</span>
+                </div>
+                <h3 class="fw-bold mb-1 fs-4 fs-md-3">Bridal Makeup Kit</h3>
+                <h5 class="mb-2 fw-bold text-danger">From ₹199 (Low Price)</h5>
+                <p class="small opacity-75 mb-0 d-none d-sm-block text-dark">Complete glow for your big day</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1596462502278-27bfdc403348?q=80&w=400&auto=format&fit=crop" class="position-absolute bottom-0 end-0 z-0 banner-img" alt="Makeup">
+            <span class="position-absolute bottom-0 end-0 bg-light text-muted px-1 m-2 rounded fw-bold z-2" style="font-size: 9px; opacity: 0.8;">AD</span>
+        </a>
+
+        <!-- Banner 3: Fresh Green/Natural Theme (Clickable -> Hair Care, Low Price) -->
+        <a href="{% url 'home' %}?category=Hair Care&sort=low_price" class="promo-banner text-decoration-none d-block flex-shrink-0 position-relative shadow-sm" style="background: linear-gradient(135deg, #84fab0, #8fd3f4);">
+            <div class="position-absolute top-0 start-0 p-3 p-md-4 w-100 h-100 text-dark z-1 d-flex flex-column justify-content-center">
+                <div>
+                    <span class="badge bg-success mb-2 text-white">ORGANIC</span>
+                </div>
+                <h3 class="fw-bold mb-1 fs-4 fs-md-3">Natural Hair Care</h3>
+                <h5 class="mb-2 fw-bold" style="color: #006b3c;">Clearance Sale</h5>
+                <p class="small opacity-75 mb-0 d-none d-sm-block text-dark">Sulfate-free premium shampoos</p>
+            </div>
+            <img src="https://images.unsplash.com/photo-1608248593802-808ca1ad3f2a?q=80&w=400&auto=format&fit=crop" class="position-absolute bottom-0 end-0 z-0 banner-img" alt="Haircare">
+            <span class="position-absolute bottom-0 end-0 bg-light text-muted px-1 m-2 rounded fw-bold z-2" style="font-size: 9px; opacity: 0.8;">AD</span>
+        </a>
+
+    </div>
+</div>
+<!-- 👆 FLIPKART STYLE PROMO BANNERS KHATAM 👆 -->
+
+<!-- 👇 PRODUCTS GRID SECTION 👇 -->
+<div class="d-flex justify-content-between align-items-center mb-4 mt-2">
+    <h4 class="fw-bold mb-0">Recommended for You</h4>
+</div>
+
+{% if products %}
+    <!-- Bootstrap Grid: PC pe 5 cards, Tab pe 3, Mobile pe 2 -->
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 g-3 g-md-4 mb-5">
+        
+        {% for product in products %}
+        <div class="col">
+            <div class="card h-100 shadow-sm border-0 product-card bg-white position-relative rounded-3">
+                
+                <!-- Discount Badge -->
+                <span class="badge bg-danger position-absolute top-0 start-0 m-2 z-1 rounded-pill" style="font-size: 11px;">-18% OFF</span>
+
+                <!-- Product Image -->
+                <a href="{% url 'product_detail' product.id %}" class="text-decoration-none text-center p-3 d-block" style="height: 180px;">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" class="img-fluid h-100 product-img-fit" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="https://dummyimage.com/300x300/ffecf2/d63384.png&text=Beauty" class="img-fluid h-100 product-img-fit" alt="Dummy">
+                    {% endif %}
+                </a>
+
+                <!-- Product Details -->
+                <div class="card-body d-flex flex-column px-3 pt-0 pb-3">
+                    <a href="{% url 'product_detail' product.id %}" class="text-decoration-none">
+                        <h6 class="card-title text-dark fw-bold mb-1 product-title" title="{{ product.name }}">
+                            {{ product.name }}
+                        </h6>
+                    </a>
+                    
+                    <!-- Ratings -->
+                    <div class="text-warning mb-2" style="font-size: 12px;">
+                        <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                        <span class="text-muted ms-1">(4,{{ product.id|slice:":2" }}12)</span>
+                    </div>
+
+                    <!-- Price & Add to Cart -->
+                    <div class="mt-auto">
+                        <div class="d-flex align-items-baseline gap-2 mb-3">
+                            <span class="fw-bold fs-5 text-dark">₹{{ product.price }}</span>
+                            <span class="text-muted text-decoration-line-through small">₹{{ product.price|add:"150" }}</span>
+                        </div>
+                        
+                        <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="quantity" value="1">
+                            <input type="hidden" name="action" value="add">
+                            <!-- Premium yellow button -->
+                            <button type="submit" class="btn w-100 amazon-btn-add py-2 fw-bold shadow-sm" style="border-radius: 50px; font-size: 13px;">
+                                Add to cart
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+{% else %}
+    <!-- Agar Database me koi product nahi hai toh yeh dikhega -->
+    <div class="text-center py-5 bg-white shadow-sm rounded-4 mb-5">
+        <h3 class="fw-bold" style="color: #0f1111;">No Products Found</h3>
+        <p class="text-muted">Please add some products from the Django Admin Panel.</p>
+    </div>
+{% endif %}
+<!-- 👆 PRODUCTS GRID SECTION KHATAM 👆 -->
+
+<!-- CSS Styles -->
+<style>
+    /* Banners Styles */
+    .promo-banner {
+        width: 85vw; 
+        max-width: 450px; 
+        height: 200px;
+        border-radius: 12px;
+        overflow: hidden;
+        scroll-snap-align: start;
+        cursor: pointer;
+        transition: transform 0.2s ease;
+    }
+    @media (min-width: 768px) { .promo-banner { height: 230px; } }
+    .promo-banner:hover { transform: translateY(-3px); }
+    .banner-img {
+        height: 100%;
+        width: 55%;
+        object-fit: cover;
+        -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%);
+        mask-image: linear-gradient(to right, transparent 0%, black 40%);
+    }
+    .custom-scrollbar::-webkit-scrollbar { height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #d5d9d9; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+
+    /* Product Cards Styles */
+    .product-card {
+        transition: all 0.3s ease;
+        border: 1px solid #f0f0f0 !important;
+    }
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08) !important;
+        border-color: #ff4b91 !important;
+    }
+    
+    .product-img-fit {
+        object-fit: contain;
+        transition: transform 0.3s ease;
+    }
+    .product-card:hover .product-img-fit {
+        transform: scale(1.05); /* Hover karne par image thodi badi hogi */
+    }
+
+    /* Product title 2 lines me truncate karne ke liye */
+    .product-title {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        height: 38px; /* Fixed height so buttons align perfectly */
+    }
+
+    /* Add to Cart button override for premium look */
+    .amazon-btn-add {
+        background-color: #ffd814;
+        border: 1px solid #fcd200;
+        color: #0f1111;
+    }
+    .amazon-btn-add:hover { background-color: #f7ca00; }
+</style>
+
+{% endblock %}

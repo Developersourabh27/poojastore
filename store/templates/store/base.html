@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pooja Beauty & Cosmetics</title>
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* 👇 DARK/LIGHT MODE SWITCH ANIMATION 👇 */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            margin-right: 15px;
+        }
+        .theme-switch {
+            display: inline-block;
+            height: 26px;
+            position: relative;
+            width: 50px;
+        }
+        .theme-switch input {
+            display: none;
+        }
+        .theme-slider {
+            background-color: #2a2a2a;
+            bottom: 0;
+            cursor: pointer;
+            left: 0;
+            position: absolute;
+            right: 0;
+            top: 0;
+            transition: 0.4s;
+            border-radius: 34px;
+            border: 1px solid #555;
+        }
+        .theme-slider:before {
+            background-color: #131921;
+            bottom: 2px;
+            content: "\f186"; /* Moon Icon */
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            color: #f1c40f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 13px;
+            height: 20px;
+            left: 3px;
+            position: absolute;
+            transition: 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            width: 20px;
+            border-radius: 50%;
+            box-shadow: inset 0 0 5px rgba(0,0,0,0.5);
+        }
+        input:checked + .theme-slider {
+            background-color: #e9ecef;
+            border-color: #ccc;
+        }
+        input:checked + .theme-slider:before {
+            transform: translateX(22px);
+            content: "\f185"; /* Sun Icon */
+            color: #e67e22;
+            background-color: white;
+            box-shadow: 0 0 5px rgba(0,0,0,0.2);
+        }
+        
+        /* Smooth page transition */
+        body {
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Premium Professional Colors */
+        .bg-premium-dark { background-color: #131921; } 
+        .bg-premium-sub { background-color: #232f3e; } 
+        
+        /* Amazon Style Hover Effect */
+        .nav-hover {
+            border: 1px solid transparent;
+            border-radius: 2px;
+            padding: 5px 8px;
+            text-decoration: none;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        .nav-hover:hover {
+            border: 1px solid white;
+        }
+
+        /* Search Bar Styling */
+        .search-input {
+            border-radius: 0;
+            border: none;
+        }
+        .search-input:focus {
+            box-shadow: none;
+            outline: 2px solid #ff4b91; 
+        }
+        .search-btn {
+            background-color: #ff4b91; 
+            border: none;
+            border-radius: 0 4px 4px 0;
+            color: white;
+            width: 45px;
+        }
+        .search-btn:hover {
+            background-color: #e6397c;
+        }
+        .search-dropdown {
+            background-color: #f3f3f3;
+            border: 1px solid #ccc;
+            border-radius: 4px 0 0 4px;
+            color: #333;
+            font-size: 13px;
+        }
+
+        /* Live Search Suggestion Hover Effect */
+        .suggestion-item:hover { background-color: #f8f9fa !important; }
+
+        /* Sub-nav Category Links */
+        .sub-nav-link {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 10px;
+            border: 1px solid transparent;
+            white-space: nowrap;
+        }
+        .sub-nav-link:hover {
+            border: 1px solid white;
+            border-radius: 2px;
+        }
+
+        /* Utility */
+        .text-light-gray { color: #cccccc; font-size: 12px; line-height: 14px; }
+        .text-bold-white { color: white; font-size: 14px; font-weight: 700; line-height: 15px; }
+
+        /* 👇 MASTER DARK MODE OVERRIDES 👇 */
+        [data-bs-theme="dark"] body {
+            background-color: #121212 !important;
+            color: #e0e0e0 !important;
+        }
+        [data-bs-theme="dark"] .bg-white, 
+        [data-bs-theme="dark"] .bg-light,
+        [data-bs-theme="dark"] .card {
+            background-color: #1e1e1e !important;
+            border-color: #333 !important;
+            color: #e0e0e0 !important;
+        }
+        [data-bs-theme="dark"] .text-dark, 
+        [data-bs-theme="dark"] h1, [data-bs-theme="dark"] h2, 
+        [data-bs-theme="dark"] h3, [data-bs-theme="dark"] h4, 
+        [data-bs-theme="dark"] h5, [data-bs-theme="dark"] h6 {
+            color: #ffffff !important;
+        }
+        [data-bs-theme="dark"] .text-muted {
+            color: #aaaaaa !important;
+        }
+        [data-bs-theme="dark"] [style*="color: #0f1111"],
+        [data-bs-theme="dark"] [style*="color: #565959"] {
+            color: #e0e0e0 !important;
+        }
+        [data-bs-theme="dark"] [style*="background-color: #f8f9fa"],
+        [data-bs-theme="dark"] .form-select,
+        [data-bs-theme="dark"] .form-control {
+            background-color: #2a2a2a !important;
+            color: white !important;
+            border-color: #444 !important;
+        }
+        [data-bs-theme="dark"] .amazon-btn-add, 
+        [data-bs-theme="dark"] .amazon-btn-buy {
+            color: #000 !important; 
+        }
+        [data-bs-theme="dark"] .suggestion-item:hover { background-color: #2a2a2a !important; }
+    </style>
+</head>
+<body class="bg-light">
+
+<!-- 👇 MAIN NAVBAR 👇 -->
+<nav class="navbar navbar-expand-md bg-premium-dark py-1">
+    <div class="container-fluid flex-wrap align-items-center">
+        
+        <!-- 1. Logo -->
+        <a class="navbar-brand text-white fw-bold me-1 nav-hover flex-row align-items-center gap-1 fs-5" href="{% url 'home' %}">
+            <i class="fa-solid fa-sparkles" style="color: #ff4b91;"></i> PoojaStore
+        </a>
+
+        <!-- 2. Deliver To -->
+        <div class="d-none d-xl-flex nav-hover me-2" style="cursor: pointer;">
+            <div class="mt-2"><i class="fa-solid fa-location-dot text-white fs-5"></i></div>
+            <div class="ms-1">
+                <div class="text-light-gray">Delivering to Rohtak 124001</div>
+                <div class="text-bold-white">Update location</div>
+            </div>
+        </div>
+
+        <!-- 3. Big Search Bar with Live Suggestions -->
+        <form action="{% url 'search' %}" method="GET" class="d-flex flex-grow-1 mx-2 my-2 my-md-0 position-relative">
+            <div class="input-group">
+                <button class="btn search-dropdown dropdown-toggle d-none d-sm-block" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Beauty
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="#">All Categories</a></li>
+                    <li><a class="dropdown-item" href="#">Skin Care</a></li>
+                </ul>
+                
+                <input type="text" id="searchInput" name="q" class="form-control search-input px-3" placeholder="Search for foundations, lipsticks, moisturizers..." autocomplete="off" required>
+                
+                <button class="btn search-btn" type="submit">
+                    <i class="fa-solid fa-magnifying-glass fs-5"></i>
+                </button>
+            </div>
+
+            <!-- LIVE SUGGESTIONS DROPDOWN BOX -->
+            <div id="searchSuggestions" class="position-absolute shadow-lg rounded-bottom w-100 bg-white" style="top: 100%; left: 0; z-index: 1050; display: none; max-height: 350px; overflow-y: auto; border: 1px solid #ddd; border-top: none;">
+                <!-- JS yahan results daalega -->
+            </div>
+        </form>
+
+        <!-- 4. Right Side Actions -->
+        <div class="d-flex align-items-center gap-1">
+            
+            <!-- Dark Mode Switch -->
+            <div class="theme-switch-wrapper">
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="theme-slider"></div>
+                </label>
+            </div>
+            
+            <!-- Language -->
+            <div class="d-none d-lg-flex nav-hover align-items-end pb-1" style="cursor: pointer; height: 100%;">
+                <span class="fw-bold text-white fs-6">EN <i class="fa-solid fa-caret-down text-light-gray" style="font-size: 10px;"></i></span>
+            </div>
+
+            <!-- Account & Sign In -->
+            <div class="nav-item dropdown">
+                <a class="nav-hover" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    {% if user.is_authenticated %}
+                        <div class="text-light-gray">Hello, {{ user.username }}</div>
+                        <div class="text-bold-white">Account & Lists <i class="fa-solid fa-caret-down text-light-gray" style="font-size: 10px;"></i></div>
+                    {% else %}
+                        <div class="text-light-gray">Hello, sign in</div>
+                        <div class="text-bold-white">Account & Lists <i class="fa-solid fa-caret-down text-light-gray" style="font-size: 10px;"></i></div>
+                    {% endif %}
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+                    {% if user.is_authenticated %}
+                        <li><a class="dropdown-item fw-bold" href="#">Your Profile</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item text-danger" href="{% url 'logout' %}">Sign Out</a></li>
+                    {% else %}
+                        <li><a class="dropdown-item fw-bold text-center" href="{% url 'login' %}">Sign In</a></li>
+                        <li><span class="dropdown-item text-center small text-muted">New customer? <a href="{% url 'register' %}">Start here.</a></span></li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <!-- Returns & Orders -->
+            <a href="{% url 'my_orders' %}" class="d-none d-md-flex nav-hover">
+                <div class="text-light-gray">Returns</div>
+                <div class="text-bold-white">& Orders</div>
+            </a>
+
+            <!-- Cart -->
+            <a href="{% url 'cart_view' %}" class="nav-hover flex-row align-items-end pb-1 position-relative">
+                <i class="fa-solid fa-cart-shopping fs-3" style="color: white;"></i>
+                <span class="position-absolute translate-middle badge rounded-pill" style="top: 10px; left: 25px; background-color: #ff4b91; font-size: 13px;">
+                    0
+                </span>
+                <span class="text-bold-white ms-2 d-none d-sm-block">Cart</span>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<!-- 👇 CATEGORY SUB-NAVBAR 👇 -->
+<div class="bg-premium-sub d-flex align-items-center px-2 py-1" style="overflow-x: auto; scrollbar-width: none;">
+    <a href="?category=All" class="sub-nav-link fw-bold"><i class="fa-solid fa-bars me-1"></i> All</a>
+    <a href="?category=Bestsellers" class="sub-nav-link">Bestsellers</a>
+    <a href="?category=Make-up" class="sub-nav-link">Make-up & Nails</a>
+    <a href="?category=Skin Care" class="sub-nav-link">Skin Care</a>
+    <a href="?category=Hair Care" class="sub-nav-link">Hair Care & Styling</a>
+    <a href="?category=Luxury Beauty" class="sub-nav-link">Luxury Beauty</a>
+    <a href="?category=Fragrance" class="sub-nav-link">Fragrance</a>
+    <a href="?category=Men" class="sub-nav-link">Men's Grooming</a>
+</div>
+
+<!-- Main Content Area -->
+<div class="container-fluid mt-4 px-4">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show shadow-sm text-center">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+    
+    {% block content %}
+    {% endblock %}
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Scripts -->
+<script>
+    // 1. Alerts Auto-hide
+    setTimeout(function() {
+        let alerts = document.querySelectorAll('.alert');
+        alerts.forEach(alert => {
+            let bsAlert = new bootstrap.Alert(alert);
+            bsAlert.close();
+        });
+    }, 3000);
+
+    // 2. Dark Mode Logic
+    const toggleSwitch = document.querySelector('.theme-switch input[type="checkbox"]');
+    const currentTheme = localStorage.getItem('theme');
+
+    if (currentTheme) {
+        document.documentElement.setAttribute('data-bs-theme', currentTheme);
+        if (currentTheme === 'dark') {
+            toggleSwitch.checked = true;
+        }
+    }
+
+    function switchTheme(e) {
+        if (e.target.checked) {
+            document.documentElement.setAttribute('data-bs-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.documentElement.setAttribute('data-bs-theme', 'light');
+            localStorage.setItem('theme', 'light');
+        }    
+    }
+    toggleSwitch.addEventListener('change', switchTheme, false);
+
+    // 3. Live AJAX Search Logic
+    const searchInput = document.getElementById('searchInput');
+    const searchSuggestions = document.getElementById('searchSuggestions');
+
+    searchInput.addEventListener('input', function() {
+        const query = this.value.trim();
+        
+        if (query.length > 0) {
+            fetch(`/search-suggestions/?q=${query}`)
+            .then(response => response.json())
+            .then(data => {
+                searchSuggestions.innerHTML = ''; 
+                
+                if (data.results.length > 0) {
+                    data.results.forEach(item => {
+                        let badge = item.is_recommended ? '<span class="badge bg-warning text-dark ms-2" style="font-size:10px;">Recommended for You</span>' : '';
+                        let icon = item.is_recommended ? '<i class="fa-solid fa-fire text-danger me-2"></i>' : '<i class="fa-solid fa-magnifying-glass text-muted me-2"></i>';
+                        
+                        searchSuggestions.innerHTML += `
+                            <a href="${item.url}" class="text-decoration-none text-dark d-block p-2 border-bottom suggestion-item" style="transition: 0.2s;">
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <span style="font-size: 14px;">${icon} ${item.name} ${badge}</span>
+                                    <span class="fw-bold text-danger" style="font-size: 14px;">₹${item.price}</span>
+                                </div>
+                            </a>
+                        `;
+                    });
+                    searchSuggestions.style.display = 'block';
+                } else {
+                    searchSuggestions.innerHTML = `
+                        <div class="p-4 text-center">
+                            <i class="fa-solid fa-circle-exclamation text-danger fs-3 mb-2"></i>
+                            <h6 class="text-dark fw-bold mb-1">Product Not Found</h6>
+                            <p class="text-muted small mb-0">Your product will be online soon. Keep turn on notification for latest updates.</p>
+                        </div>
+                    `;
+                    searchSuggestions.style.display = 'block';
+                }
+            });
+        } else {
+            searchSuggestions.style.display = 'none'; 
+        }
+    });
+
+    // Close suggestions when clicking outside
+    document.addEventListener('click', function(e) {
+        if (!searchInput.contains(e.target) && !searchSuggestions.contains(e.target)) {
+            searchSuggestions.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+{% extends 'store/base.html' %}
+{% block content %}
+
+<!-- SweetAlert aur Animation ki Library -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+<div class="container d-flex justify-content-center align-items-center py-5">
+    
+    <div class="card shadow-lg border-0 rounded-4 p-4 p-md-5 login-card" style="max-width: 500px; width: 100%; background-color: #ffffff;">
+        
+        <!-- Animated Icon -->
+        <div class="text-center mb-4">
+            <div class="d-inline-flex justify-content-center align-items-center rounded-circle shadow-sm icon-pulse mb-3" style="width: 70px; height: 70px; background: linear-gradient(135deg, #ff758c, #ff7eb3);">
+                <i class="fa-solid fa-user-plus text-white" style="font-size: 30px;"></i>
+            </div>
+            <h2 class="fw-bold mb-1" style="color: #0f1111;">Join Pooja Beauty! ✨</h2>
+            <p class="text-muted small">Create your premium cosmetics account</p>
+        </div>
+
+        <form method="POST" action="">
+            {% csrf_token %}
+            
+            <!-- Django Form Fields ko individually style karna -->
+            {% for field in form %}
+                <div class="mb-3 text-start">
+                    <label class="form-label fw-bold text-muted small ms-1">{{ field.label|upper }}</label>
+                    <div class="input-group login-input-group shadow-sm {% if field.errors %}border-danger{% endif %}">
+                        
+                        <!-- Dynamic Icons -->
+                        <span class="input-group-text bg-white border-end-0 text-muted">
+                            {% if field.name == 'username' %}<i class="fa-solid fa-user"></i>
+                            {% elif field.name == 'phone' %}<i class="fa-solid fa-phone"></i>
+                            {% elif 'password' in field.name %}<i class="fa-solid fa-lock"></i>
+                            {% else %}<i class="fa-solid fa-pen"></i>{% endif %}
+                        </span>
+                        
+                        <!-- 👇 YAHAN GALTI THEEK KI GAYI HAI 👇 -->
+                        <!-- 1. type ko safe banaya -->
+                        <!-- 2. value add kiya taaki data gayab na ho (par password hamesha clear rahega security ke liye) -->
+                        <input type="{% if 'password' in field.name %}password{% else %}text{% endif %}" 
+                               name="{{ field.name }}" 
+                               value="{% if field.value and 'password' not in field.name %}{{ field.value }}{% endif %}"
+                               class="form-control border-start-0 ps-0" 
+                               placeholder="{% if field.field.widget.attrs.placeholder %}{{ field.field.widget.attrs.placeholder }}{% else %}Enter {{ field.label|lower }}{% endif %}" 
+                               required>
+                    </div>
+                    
+                    <!-- Only show Help text for password -->
+                    {% if field.name == 'password' or field.name == 'username' %}
+                        <div class="form-text small mt-1 text-muted" style="font-size: 11px;">{{ field.help_text|safe }}</div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+
+            <button type="submit" class="btn w-100 fw-bold fs-5 py-2 premium-login-btn shadow mt-3">
+                Sign Up Now <i class="fa-solid fa-sparkles ms-1"></i>
+            </button>
+        </form>
+        
+        <div class="mt-4 pt-3 border-top text-center">
+            <p class="mb-1 text-muted" style="font-size: 14px;">Already have an account?</p>
+            <a href="{% url 'login' %}" class="animated-signup-link fw-bold fs-6">
+                Sign in to your account <i class="fa-solid fa-arrow-right-long ms-1 arrow-icon"></i>
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- 👇 ANIMATED POPUP JAVASCRIPT 👇 -->
+<script>
+    {% if form.errors %}
+        let exactErrors = "";
+
+        // Phone number ka specific error
+        {% if form.phone.errors %}
+            exactErrors += "📱 <b>Mobile:</b> {{ form.phone.errors.0|escapejs }}<br><br>";
+        {% endif %}
+
+        // Baaki sabhi fields (Username, Password) ke errors
+        {% for field in form %}
+            {% if field.errors and field.name != 'phone' %}
+                exactErrors += "⚠️ <b>{{ field.label|title }}:</b> {{ field.errors.0|escapejs }}<br><br>";
+            {% endif %}
+        {% endfor %}
+
+        // Form ke general errors (jaise passwords na milna)
+        {% for error in form.non_field_errors %}
+            exactErrors += "❌ {{ error|escapejs }}<br><br>";
+        {% endfor %}
+
+        // Smart SweetAlert Popup jo asli error dikhayega
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops! Kuch galti hai',
+            html: exactErrors, 
+            confirmButtonColor: '#ff4b91',
+            showClass: {
+                popup: 'animate__animated animate__shakeX' // Shake animation error ke liye
+            }
+        });
+    {% endif %}
+</script>
+
+<style>
+    /* Slide Up Animation */
+    .login-card { animation: slideUpFade 0.6s ease-out; }
+    @keyframes slideUpFade { 0% { opacity: 0; transform: translateY(30px); } 100% { opacity: 1; transform: translateY(0); } }
+    
+    /* Pulse effect on logo */
+    .icon-pulse { animation: pulse 2s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 75, 145, 0.4); } 70% { box-shadow: 0 0 0 15px rgba(255, 75, 145, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 75, 145, 0); } }
+    
+    /* Inputs */
+    .login-input-group { border-radius: 10px; overflow: hidden; border: 2px solid #eaeaea; transition: all 0.3s ease; }
+    .login-input-group:focus-within { border-color: #ff4b91; box-shadow: 0 0 0 4px rgba(255, 75, 145, 0.1) !important; }
+    .login-input-group input { border: none; box-shadow: none; padding: 10px 15px; width: 100%; outline: none; }
+    .login-input-group .input-group-text { border: none; padding-left: 15px; }
+    
+    /* Buttons */
+    .premium-login-btn { background: linear-gradient(135deg, #ff4b91, #ff7eb3); border: none; color: white; border-radius: 12px; transition: all 0.3s ease; }
+    .premium-login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(255, 75, 145, 0.4) !important; color: white; }
+    
+    /* Links */
+    .animated-signup-link { color: #ff4b91; text-decoration: none; display: inline-block; position: relative; transition: all 0.3s ease; }
+    .animated-signup-link:hover { color: #d63384; transform: scale(1.05); }
+    .animated-signup-link .arrow-icon { transition: transform 0.3s ease; }
+    .animated-signup-link:hover .arrow-icon { transform: translateX(5px); }
+    
+    /* Dark Mode */
+    [data-bs-theme="dark"] .login-card { background-color: #1e1e1e !important; }
+    [data-bs-theme="dark"] .login-input-group { border-color: #333; }
+    [data-bs-theme="dark"] .login-input-group input, [data-bs-theme="dark"] .login-input-group .input-group-text { background-color: #2a2a2a !important; color: #fff !important; }
+</style>
+
+{% endblock %}

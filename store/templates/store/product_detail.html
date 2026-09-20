@@ -1,0 +1,311 @@
+{% extends 'store/base.html' %}
+{% block content %}
+
+<!-- Breadcrumb (Amazon Style Navigation) -->
+<nav aria-label="breadcrumb" class="mb-2" style="font-size: 13px;">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{% url 'home' %}" class="text-decoration-none" style="color: #565959;">Beauty</a></li>
+        <li class="breadcrumb-item"><a href="#" class="text-decoration-none" style="color: #565959;">Make-up & Nails</a></li>
+        <li class="breadcrumb-item"><a href="#" class="text-decoration-none" style="color: #565959;">Face</a></li>
+        <li class="breadcrumb-item active" aria-current="page" style="color: #565959;">{{ product.name|truncatechars:30 }}</li>
+    </ol>
+</nav>
+
+<div class="row g-4 mb-5">
+    
+    <!-- ======================= -->
+    <!-- COLUMN 1: IMAGES (Left) -->
+    <!-- ======================= -->
+    <div class="col-12 col-lg-4 d-flex">
+        <!-- Vertical Thumbnails -->
+        <div class="d-flex flex-column gap-2 me-3 mt-2" style="width: 50px;">
+            <div class="p-1 border border-1 border-primary rounded" style="cursor: pointer; box-shadow: 0 0 5px rgba(0,113,133,0.3);">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="img-fluid" alt="thumb">
+                {% else %}
+                    <img src="https://dummyimage.com/100x100/ffecf2/d63384.png" class="img-fluid" alt="thumb">
+                {% endif %}
+            </div>
+            <div class="p-1 border border-1 rounded thumbnail-hover" style="cursor: pointer;">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="img-fluid" alt="thumb">
+                {% else %}
+                    <img src="https://dummyimage.com/100x100/ffecf2/d63384.png" class="img-fluid" alt="thumb">
+                {% endif %}
+            </div>
+            <div class="p-1 border border-1 rounded thumbnail-hover" style="cursor: pointer;">
+                {% if product.image %}
+                    <img src="{{ product.image.url }}" class="img-fluid" alt="thumb">
+                {% else %}
+                    <img src="https://dummyimage.com/100x100/ffecf2/d63384.png" class="img-fluid" alt="thumb">
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Main Big Image -->
+        <div class="flex-grow-1 text-center p-2">
+            {% if product.image %}
+                <img src="{{ product.image.url }}" alt="{{ product.name }}" class="img-fluid" style="max-height: 500px; object-fit: contain;">
+            {% else %}
+                <img src="https://dummyimage.com/500x500/ffecf2/d63384.png&text=Beauty+Product" alt="No Image" class="img-fluid" style="max-height: 500px; object-fit: contain;">
+            {% endif %}
+            <div class="mt-3 text-muted" style="font-size: 13px;"><i class="fa-solid fa-magnifying-glass-plus"></i> Click to see full view</div>
+        </div>
+    </div>
+
+
+    <!-- ============================== -->
+    <!-- COLUMN 2: PRODUCT INFO (Center)-->
+    <!-- ============================== -->
+    <div class="col-12 col-lg-5">
+        <!-- Title & Brand -->
+        <h3 class="fw-normal lh-sm mb-1" style="font-size: 24px; color: #0f1111;">{{ product.name }}</h3>
+        <a href="#" class="text-decoration-none" style="color: #007185; font-size: 14px;">Visit the Pooja Beauty Store</a>
+        
+        <!-- Ratings -->
+        <div class="d-flex align-items-center gap-2 mt-2" style="font-size: 14px;">
+            <span style="color: #0f1111;">4.3</span>
+            <span style="color: #de7921;">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+            </span>
+            <a href="#" class="text-decoration-none" style="color: #007185;"><i class="fa-solid fa-chevron-down text-muted" style="font-size: 10px;"></i> (4,231)</a>
+        </div>
+        <div class="mt-1 pb-2 border-bottom text-muted" style="font-size: 14px;">
+            <span class="badge bg-danger rounded-1">Deal</span> <span class="fw-bold" style="color: #c45500;">400+ bought in past month</span>
+        </div>
+
+        <!-- Price Section -->
+        <div class="mt-3">
+            <div class="d-flex align-items-start gap-2">
+                <span class="text-danger fw-light" style="font-size: 28px;">-18%</span>
+                <span class="fw-bold" style="font-size: 28px; color: #0f1111;"><span style="font-size: 16px; position: relative; top: -6px;">₹</span>{{ product.price }}</span>
+            </div>
+            <div class="text-muted" style="font-size: 13px;">
+                M.R.P.: <span class="text-decoration-line-through">₹{{ product.price|add:"150" }}</span>
+            </div>
+            <div class="fw-bold mt-1" style="font-size: 14px; color: #0f1111;">Inclusive of all taxes</div>
+            <div style="font-size: 14px; color: #0f1111;"><span class="fw-bold">EMI</span> starts at ₹120. No Cost EMI available <a href="#" style="color: #007185; text-decoration: none;">EMI options <i class="fa-solid fa-chevron-down" style="font-size: 10px;"></i></a></div>
+        </div>
+
+        <hr class="text-muted opacity-25">
+
+        <!-- Offers Row -->
+        <div class="fw-bold mb-2" style="font-size: 15px;"><i class="fa-solid fa-tags text-danger me-1"></i> Offers</div>
+        <div class="d-flex gap-2 overflow-auto pb-2 custom-scrollbar">
+            <!-- Offer Box 1 -->
+            <div class="card p-2 border shadow-sm" style="min-width: 140px; border-radius: 8px;">
+                <div class="fw-bold" style="font-size: 13px;">Cashback</div>
+                <div class="text-muted" style="font-size: 12px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Upto ₹50.00 cashback as Amazon Pay Balance.</div>
+                <a href="#" class="mt-auto" style="font-size: 12px; color: #007185; text-decoration: none;">1 offer ></a>
+            </div>
+            <!-- Offer Box 2 -->
+            <div class="card p-2 border shadow-sm" style="min-width: 140px; border-radius: 8px;">
+                <div class="fw-bold" style="font-size: 13px;">Bank Offer</div>
+                <div class="text-muted" style="font-size: 12px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Upto ₹250.00 discount on select Credit Cards.</div>
+                <a href="#" class="mt-auto" style="font-size: 12px; color: #007185; text-decoration: none;">4 offers ></a>
+            </div>
+            <!-- Offer Box 3 -->
+            <div class="card p-2 border shadow-sm" style="min-width: 140px; border-radius: 8px;">
+                <div class="fw-bold" style="font-size: 13px;">Partner Offer</div>
+                <div class="text-muted" style="font-size: 12px; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;">Get GST invoice and save up to 28% on business.</div>
+                <a href="#" class="mt-auto" style="font-size: 12px; color: #007185; text-decoration: none;">1 offer ></a>
+            </div>
+        </div>
+
+        <hr class="text-muted opacity-25">
+
+        <!-- Trust Icons -->
+        <div class="d-flex justify-content-between text-center mx-2 my-3" style="font-size: 12px; color: #007185;">
+            <div style="width: 70px;">
+                <img src="https://m.media-amazon.com/images/G/31/A2I-Convert/mobile/IconFarm/icon-returns._CB484059092_.png" width="35" class="mb-1"><br>Non-Returnable
+            </div>
+            <div style="width: 70px;">
+                <img src="https://m.media-amazon.com/images/G/31/A2I-Convert/mobile/IconFarm/icon-amazon-delivered._CB485933725_.png" width="35" class="mb-1"><br>Free Delivery
+            </div>
+            <div style="width: 70px;">
+                <img src="https://m.media-amazon.com/images/G/31/A2I-Convert/mobile/IconFarm/Secure-payment._CB650126890_.png" width="35" class="mb-1"><br>Secure transaction
+            </div>
+            <div style="width: 70px;">
+                <img src="https://m.media-amazon.com/images/G/31/A2I-Convert/mobile/IconFarm/icon-top-brand._CB617044271_.png" width="35" class="mb-1"><br>Top Brand
+            </div>
+        </div>
+
+        <hr class="text-muted opacity-25">
+        
+        <!-- Description -->
+        <h5 class="fw-bold" style="font-size: 16px;">About this item</h5>
+        <ul style="font-size: 14px; color: #0f1111;">
+            <li class="mb-1">{{ product.description }}</li>
+            <li class="mb-1">Formulated with premium beauty ingredients for a long-lasting glow.</li>
+            <li class="mb-1">Dermatologically tested and suitable for daily wear.</li>
+            <li class="mb-1">Provides deep hydration and seamless blendability on the skin.</li>
+        </ul>
+    </div>
+
+
+    <!-- ============================== -->
+    <!-- COLUMN 3: BUY BOX (Right)      -->
+    <!-- ============================== -->
+    <div class="col-12 col-lg-3">
+        <div class="card p-3 shadow-sm" style="border: 1px solid #d5d9d9; border-radius: 8px;">
+            <!-- Price Display -->
+            <div class="fw-bold mb-2" style="font-size: 24px; color: #0f1111;">
+                <span style="font-size: 14px; position: relative; top: -6px;">₹</span>{{ product.price }}
+            </div>
+
+            <!-- Delivery Info -->
+            <div class="mb-3" style="font-size: 14px; color: #0f1111;">
+                <span style="color: #007185;">FREE delivery</span> <b>Saturday, 19 September</b> on your first order. Order within <span style="color: #008a00;">57 mins</span>. <a href="#" style="color: #007185; text-decoration: none;">Details</a>
+            </div>
+            
+            <div class="d-flex align-items-start gap-2 mb-3" style="font-size: 12px;">
+                <i class="fa-solid fa-location-dot mt-1 text-muted"></i>
+                <a href="#" style="color: #007185; text-decoration: none;">Delivering to Rohtak 124001 - Update location</a>
+            </div>
+
+            <!-- Stock Status -->
+            <h4 class="mb-3" style="color: #007600; font-size: 18px; font-weight: 500;">In stock</h4>
+
+            <!-- Add to Cart Form -->
+            <form action="{% url 'add_to_cart' product.id %}" method="POST">
+                {% csrf_token %}
+                
+                <!-- Quantity Dropdown -->
+                <div class="mb-3">
+                    <div class="input-group input-group-sm" style="width: 120px;">
+                        <span class="input-group-text bg-light border-secondary-subtle" style="font-size: 13px;">Quantity:</span>
+                        <select name="quantity" class="form-select border-secondary-subtle" style="font-size: 13px; box-shadow: 0 2px 5px rgba(15,17,17,.15); border-radius: 0 4px 4px 0;">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Action Buttons -->
+                <!-- Action Buttons -->
+<button type="submit" name="action" value="add" class="btn w-100 mb-2 amazon-btn-add">Add to cart</button>
+<button type="submit" name="action" value="buy" class="btn w-100 mb-3 amazon-btn-buy">Buy Now</button>
+            </form>
+
+            <!-- Seller Info -->
+            <div class="d-flex justify-content-between mb-1" style="font-size: 12px;">
+                <span class="text-muted">Ships from</span>
+                <span style="color: #0f1111;">PoojaStore</span>
+            </div>
+            <div class="d-flex justify-content-between mb-3" style="font-size: 12px;">
+                <span class="text-muted">Sold by</span>
+                <span style="color: #007185;">Pooja Cosmetics Pvt Ltd</span>
+            </div>
+
+            <!-- Secure Transaction -->
+            <div style="font-size: 12px;">
+                <a href="#" style="color: #007185; text-decoration: none;">
+                    <i class="fa-solid fa-lock text-muted me-1"></i> Secure transaction
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 👇 NAYA ATTRACTION SECTION (Related Products) 👇 -->
+<hr class="mt-4 mb-4" style="border-color: #bbbfbf;">
+<h4 class="fw-bold mb-4" style="color: #cc6600; font-size: 20px;">Customers who viewed this item also viewed</h4>
+
+<!-- Horizontal Scrollable Box (Amazon Style Carousel) -->
+<div class="d-flex overflow-auto pb-4 custom-scrollbar gap-4 mb-5">
+    {% for rp in related_products %}
+    <div class="card border-0" style="min-width: 180px; max-width: 180px;">
+        <a href="{% url 'product_detail' rp.id %}" class="text-decoration-none text-dark">
+            <div class="text-center p-2 mb-2" style="height: 160px; border: 1px solid #eee; border-radius: 4px;">
+                {% if rp.image %}
+                    <img src="{{ rp.image.url }}" class="img-fluid" style="max-height: 100%; object-fit: contain;">
+                {% else %}
+                    <img src="https://dummyimage.com/150x150/ffecf2/d63384.png&text=Beauty" class="img-fluid" style="max-height: 100%;">
+                {% endif %}
+            </div>
+            
+            <h6 class="text-truncate mb-1" style="color: #007185; font-size: 14px;" title="{{ rp.name }}">
+                {{ rp.name }}
+            </h6>
+            
+            <div class="text-warning mb-1" style="font-size: 12px;">
+                <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star-half-stroke"></i>
+                <span class="text-muted ms-1">4,{{ rp.id|slice:":2" }}12</span>
+            </div>
+            
+            <div class="fw-bold" style="color: #B12704; font-size: 17px;">
+                <span style="font-size: 11px; position: relative; top: -4px;">₹</span>{{ rp.price }}
+            </div>
+        </a>
+    </div>
+    {% endfor %}
+</div>
+<!-- 👆 NAYA ATTRACTION SECTION KHATAM 👆 -->
+ {% if product.available_sizes %}
+    <div class="mb-4 text-start">
+        <label class="fw-bold mb-2">Select Size/Variant:</label><br>
+        <div class="d-flex flex-wrap gap-2" id="size-options">
+            
+            <!-- Django se comma-separated string ko list banakar dikhana -->
+            {% for size in product.available_sizes.split|join:""|slice:":" %} 
+                <!-- Note: Backend me sizes aise likhna: S,M,L,XL (bina space ke commas) -->
+            {% endfor %}
+            
+            <!-- Simple Dropdown alternative agar list filter me issue ho -->
+            <select name="size" class="form-select shadow-sm" style="max-width: 200px;" required>
+                <option value="" disabled selected>Choose Size</option>
+                <!-- Javascript se options dikhayenge -->
+            </select>
+        </div>
+    </div>
+    
+    <!-- Script to populate sizes beautifully -->
+    <script>
+        const sizes = "{{ product.available_sizes }}".split(',');
+        const selectBox = document.querySelector('select[name="size"]');
+        sizes.forEach(size => {
+            let s = size.trim();
+            if (s) {
+                selectBox.innerHTML += `<option value="${s}">${s}</option>`;
+            }
+        });
+    </script>
+{% endif %}
+
+<style>
+    /* Amazon Button Styles */
+    .amazon-btn-add {
+        background-color: #ffd814;
+        border: 1px solid #fcd200;
+        border-radius: 100px; /* Pill shape */
+        color: #0f1111;
+        font-size: 14px;
+        box-shadow: 0 2px 5px 0 rgba(213,217,217,.5);
+    }
+    .amazon-btn-add:hover { background-color: #f7ca00; border-color: #f2c200; }
+    
+    .amazon-btn-buy {
+        background-color: #ffa41c;
+        border: 1px solid #ff8f00;
+        border-radius: 100px;
+        color: #0f1111;
+        font-size: 14px;
+        box-shadow: 0 2px 5px 0 rgba(213,217,217,.5);
+    }
+    .amazon-btn-buy:hover { background-color: #fa8900; border-color: #e37d00; }
+
+    /* Custom Scrollbar for Offers & Related Products */
+    .custom-scrollbar::-webkit-scrollbar { height: 6px; }
+    .custom-scrollbar::-webkit-scrollbar-thumb { background: #d5d9d9; border-radius: 10px; }
+    .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+
+    /* Thumbnail Hover */
+    .thumbnail-hover:hover {
+        border-color: #007185 !important;
+        box-shadow: 0 0 5px rgba(0,113,133,0.3);
+    }
+</style>
+{% endblock %}

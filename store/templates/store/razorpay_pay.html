@@ -1,0 +1,36 @@
+{% extends 'store/base.html' %}
+{% block content %}
+<div class="text-center mt-5">
+    <h3>Initiating Secure Payment...</h3>
+    <p>Please do not refresh the page.</p>
+</div>
+
+<!-- Hidden Form for Success Redirect -->
+<form action="{% url 'payment_success' %}" method="POST" id="successForm">
+    {% csrf_token %}
+    <input type="hidden" name="product_id" value="{{ product.id }}">
+</form>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var options = {
+        "key": "{{ razorpay_key_id }}",
+        "amount": "{{ razorpay_order.amount }}",
+        "currency": "INR",
+        "name": "Pooja General Store",
+        "description": "Purchase of {{ product.name }}",
+        "order_id": "{{ razorpay_order.id }}",
+        "handler": function (response){
+            // Payment success hone par form submit kar do
+            document.getElementById('successForm').submit();
+        },
+        "theme": { "color": "#198754" }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.on('payment.failed', function (response){
+        alert("Payment Failed! Please try again.");
+        window.location.href = "{% url 'checkout' product.id %}";
+    });
+    rzp1.open();
+</script>
+{% endblock %}

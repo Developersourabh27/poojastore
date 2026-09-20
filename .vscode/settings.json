@@ -1,0 +1,10 @@
+{
+    "sqltools.connections": [
+        {
+            "previewLimit": 50,
+            "driver": "SQLite",
+            "name": "shoip.db",
+            "database": "db.sqlite3"
+        }
+    ]
+}
