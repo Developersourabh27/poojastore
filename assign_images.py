@@ -16,7 +16,7 @@ def assign_smart_images_chunked():
     processed = 0
     
     while processed < total_count:
-        # Ek baar mein sirf 5000 products uthayega
+        # Ek baar mein 5000 products fetch honge
         products = Product.objects.all()[processed:processed + chunk_size]
         updated_products = []
         
@@ -41,7 +41,7 @@ def assign_smart_images_chunked():
             updated_products.append(product)
             
         if updated_products:
-            # Batch mein database update karein
+            # Sahi field name 'image' ke sath bulk update
             Product.objects.bulk_update(updated_products, ['image'])
             processed += len(updated_products)
             print(f"✅ Processed {processed}/{total_count} products...")
