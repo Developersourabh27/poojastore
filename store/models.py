@@ -5,7 +5,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    image_url = models.CharField(max_length=500, blank=True, null=True)
+    image = models.CharField(max_length=500, blank=True, null=True)
     available_sizes = models.CharField(max_length=200, blank=True, null=True, help_text="Comma separated sizes, jaise: S, M, L, XL ya 50ml, 100ml")
 
     def __str__(self):
